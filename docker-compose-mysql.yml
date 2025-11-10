@@ -1,0 +1,18 @@
+services:
+
+  db:
+    image: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: persons_db
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./data:/var/lib/mysql
+    networks:
+      - persons-network
+
+networks:
+  persons-network:
+    driver: bridge

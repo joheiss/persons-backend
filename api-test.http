@@ -1,0 +1,26 @@
+POST http://localhost:3000/persons
+Accept: application/json
+Content-Type: application/json
+
+{
+    "name": "First Test",
+    "dateOfBirth": "2025-11-09",
+    "score": 101,
+    "salary": 1234.56,
+    "comment": "This is a first test"
+}
+
+###
+# Get all persons
+GET http://localhost:3000/persons
+Content-Type: application/json
+
+###
+# Get request by id
+GET http://localhost:3000/requests/1
+Content-Type: application/json
+
+###
+# Get all requests
+GET http://localhost:3000/requests
+Content-Type: application/json
