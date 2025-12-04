@@ -2,7 +2,11 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Cron } from '@nestjs/schedule';
-import { Request, RequestStatus, RequestCommand } from '../entities/request.entity';
+import {
+  Request,
+  RequestStatus,
+  RequestCommand,
+} from '../entities/request.entity';
 import { Person } from '../entities/person.entity';
 
 @Injectable()
@@ -31,7 +35,9 @@ export class RequestProcessorService {
         return;
       }
 
-      this.logger.log(`Found ${openRequests.length} OPEN request(s) to process`);
+      this.logger.log(
+        `Found ${openRequests.length} OPEN request(s) to process`,
+      );
 
       // (3) Loop over all found entries
       for (const request of openRequests) {
@@ -41,7 +47,9 @@ export class RequestProcessorService {
           request.changedAt = new Date();
           await this.requestRepository.save(request);
 
-          this.logger.log(`Processing request ${request.requestId} with command ${request.command}`);
+          this.logger.log(
+            `Processing request ${request.requestId} with command ${request.command}`,
+          );
 
           // (3b) Process entry
           await this.processRequest(request);
@@ -51,10 +59,15 @@ export class RequestProcessorService {
           request.changedAt = new Date();
           await this.requestRepository.save(request);
 
-          this.logger.log(`Request ${request.requestId} completed successfully`);
+          this.logger.log(
+            `Request ${request.requestId} completed successfully`,
+          );
         } catch (error) {
           // If an error occurs, update table "requests" for current entry with status = FAILED
-          this.logger.error(`Error processing request ${request.requestId}: ${error.message}`, error.stack);
+          this.logger.error(
+            `Error processing request ${request.requestId}: ${error.message}`,
+            error.stack,
+          );
           request.status = RequestStatus.FAILED;
           request.changedAt = new Date();
           await this.requestRepository.save(request);
@@ -63,7 +76,10 @@ export class RequestProcessorService {
 
       this.logger.debug('Request processing job completed');
     } catch (error) {
-      this.logger.error(`Error in request processing job: ${error.message}`, error.stack);
+      this.logger.error(
+        `Error in request processing job: ${error.message}`,
+        error.stack,
+      );
     }
   }
 
